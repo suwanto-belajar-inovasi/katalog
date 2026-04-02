@@ -2,109 +2,154 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Suwanto - Belajar Inovasi | Jasa Web App Apps Script</title>
-    <style>
-        /* CSS Variabel & Reset untuk performa ultra-cepat */
-        :root {
-            --primary: #0f9d58;
-            --dark: #202124;
-            --light: #f8f9fa;
-            --shadow: 0 8px 30px rgba(0,0,0,0.08);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
-        
-        /* Nav & Hero Section */
-        header { background: #fff; padding: 15px 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center;}
-        .brand { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
-        .hero { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #0f9d58 0%, #0d8249 100%); color: white; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        
-        /* Grid Katalog */
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .card { background: white; border-radius: 12px; padding: 25px; box-shadow: var(--shadow); transition: transform 0.3s ease; border-top: 4px solid var(--primary); }
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { color: var(--dark); font-size: 1.3rem; margin-bottom: 10px; }
-        .price { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin: 15px 0; }
-        
-        /* Buttons */
-        .btn { display: block; width: 100%; padding: 12px; text-align: center; border-radius: 8px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; margin-bottom: 10px; }
-        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
-        .btn-outline:hover { background: var(--primary); color: white; }
-        .btn-buy { background: var(--dark); color: white; }
-        .btn-buy:hover { background: #000; }
-        
-        /* Modal Konfirmasi Pembayaran (Glassmorphism) */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 999; justify-content: center; align-items: center; }
-        .modal-content { background: white; width: 90%; max-width: 450px; padding: 30px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-btn { font-size: 1.5rem; cursor: pointer; color: #666; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
-        .btn-submit { background: var(--primary); color: white; margin-top: 10px; }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Suwanto Belajar Inovasi - Jasa Pembuatan Aplikasi Administrasi Surat Sekolah & Web Apps Script</title>
+    <meta name="description" content="Pusat pembuatan Aplikasi Administrasi Surat Sekolah, Buku Tabungan Siswa, dan Web berbasis Google Apps Script. Dibuat oleh Suwanto. Beli aplikasi atau pesan custom sekarang!">
+    <meta name="keywords" content="Aplikasi Administrasi Surat Sekolah, Aplikasi Tabungan Siswa, Google Apps Script, Spreadsheet, Jasa Web App, Suwanto, Belajar Inovasi">
+    <meta name="author" content="Suwanto">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:title" content="Aplikasi Administrasi Sekolah by Suwanto">
+    <meta property="og:description" content="Katalog aplikasi pendidikan dan otomatisasi spreadsheet yang mempercepat pekerjaan sekolah Anda.">
+    <meta property="og:image" content="https://img.youtube.com/vi/Krg0PCk7kGI/maxresdefault.jpg">
+    <meta property="og:type" content="website">
 
-        /* Toast Notification Menawan */
-        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 30px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 1000; }
-        .toast.show { bottom: 30px; }
-        .toast.success { background: #0f9d58; }
-        .toast.error { background: #ea4335; }
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Belajar Inovasi by Suwanto",
+      "description": "Jasa pembuatan aplikasi web, administrasi sekolah, dan Google Sheets.",
+      "founder": "Suwanto",
+      "url": "https://suwanto-belajar-inovasi.github.io/"
+    }
+    </script>
+    
+    <style>
+        /* === DESAIN CSS MODERN === */
+        :root { --primary: #10b981; --dark: #1f2937; --bg: #f3f4f6; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; }
+        body { background-color: var(--bg); color: var(--dark); }
+        
+        header { background: var(--dark); color: white; padding: 20px 5%; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
+        .brand { font-size: 1.5rem; font-weight: 700; color: #10b981; }
+        
+        /* Layout Grid Utama: Konten Kiri (70%), Sidebar Kanan (30%) */
+        .layout { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; }
+        
+        /* Katalog Konten */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column;}
+        
+        /* Image Slider Area */
+        .slider-container { width: 100%; overflow-x: auto; display: flex; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .slider-container::-webkit-scrollbar { display: none; }
+        .slider-img { flex: 0 0 100%; scroll-snap-align: start; width: 100%; height: 180px; object-fit: cover; }
+        .swipe-hint { text-align: center; font-size: 0.8rem; color: #777; padding: 5px 0; background: #fafafa; border-bottom: 1px solid #eee; }
+
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--dark); }
+        .price { font-size: 1.3rem; font-weight: bold; color: var(--primary); margin: 10px 0; }
+        
+        /* Tombol */
+        .btn { padding: 10px; text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; width: 100%; margin-top: 10px; transition: 0.3s; }
+        .btn-yt { background: #fee2e2; color: #ef4444; border: 1px solid #ef4444; }
+        .btn-yt:hover { background: #ef4444; color: white; }
+        .btn-buy { background: var(--primary); color: white; }
+        .btn-buy:hover { background: #059669; }
+
+        /* Sidebar Kanan */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .widget { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .widget h3 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        
+        .search-box input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+        .search-box input:focus { outline: none; border-color: var(--primary); }
+
+        .qa-form label { display: block; margin-top: 10px; font-size: 0.9rem; font-weight: bold;}
+        .qa-form input, .qa-form textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;}
+        
+        /* Modal & Toast (Seperti sebelumnya) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index: 999; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 400px; padding: 25px; border-radius: 12px; }
+        .close-btn { float: right; font-size: 1.5rem; cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: #333; color: white; padding: 15px 25px; border-radius: 8px; display: none; z-index: 1000;}
+
+        /* Responsif untuk HP */
+        @media (max-width: 768px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { grid-row: 1; } /* Sidebar (Pencarian) pindah ke atas di HP */
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="brand">Belajar Inovasi</div>
-        <div>By Suwanto</div>
+        <div class="header-content">
+            <div class="brand">Belajar Inovasi</div>
+            <div style="font-size: 0.9rem;">Oleh: Suwanto</div>
+        </div>
     </header>
 
-    <div class="hero">
-        <h1>Otomasi Bisnis Tanpa Batas</h1>
-        <p>Katalog Aplikasi Web Apps Script & Google Sheets Terbaik</p>
-    </div>
-
-    <div class="container">
-        <div class="grid" id="katalog-aplikasi">
-            <div style="text-align:center; grid-column: 1 / -1; padding: 40px;">
-                <h3 style="color: #666;">⏳ Sedang memuat aplikasi...</h3>
+    <div class="layout">
+        <main class="content">
+            <h2 style="margin-bottom: 20px;">Katalog Aplikasi & Sistem</h2>
+            <div class="grid" id="katalog-aplikasi">
+                <p style="grid-column: 1/-1; text-align: center;">Memuat aplikasi terbaik untuk Anda...</p>
             </div>
-        </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="widget search-box">
+                <h3>🔍 Cari Aplikasi</h3>
+                <input type="text" id="searchInput" placeholder="Ketik: 'Surat', 'Tabungan'..." onkeyup="filterApps()">
+            </div>
+
+            <div class="widget qa-box">
+                <h3>💬 Tanya Jawab (Live)</h3>
+                <p style="font-size: 0.9rem; color: #555; margin-bottom: 10px;">Ada request aplikasi custom atau kendala? Langsung chat saya!</p>
+                <form class="qa-form" id="qaForm">
+                    <label>Nama Anda</label>
+                    <input type="text" id="qaName" placeholder="Nama..." required>
+                    <label>Pertanyaan / Request</label>
+                    <textarea id="qaMessage" rows="4" placeholder="Halo Pak Suwanto, saya mau tanya..." required></textarea>
+                    <button type="button" class="btn btn-buy" onclick="kirimWA()">Kirim via WhatsApp</button>
+                </form>
+            </div>
+        </aside>
     </div>
 
     <div class="modal" id="paymentModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Konfirmasi Order</h2>
-                <span class="close-btn" onclick="closeModal()">&times;</span>
-            </div>
-            <form id="orderForm">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Form Pesanan</h2>
+            <form id="orderForm" style="margin-top:15px;">
                 <div class="form-group">
-                    <label>Nama Aplikasi</label>
-                    <input type="text" id="app_name" readonly style="background: #f1f1f1;">
+                    <label>Aplikasi:</label>
+                    <input type="text" id="app_name" readonly style="background: #eee;">
                 </div>
                 <div class="form-group">
-                    <label>Nama Anda</label>
-                    <input type="text" id="user_name" required placeholder="Masukkan nama lengkap">
+                    <label>Nama Lengkap:</label>
+                    <input type="text" id="user_name" required>
                 </div>
                 <div class="form-group">
-                    <label>No. WhatsApp</label>
-                    <input type="number" id="user_wa" required placeholder="Contoh: 08123456789">
+                    <label>No. WhatsApp:</label>
+                    <input type="number" id="user_wa" required>
                 </div>
                 <div class="form-group">
-                    <label>Metode Pembayaran</label>
+                    <label>Pembayaran:</label>
                     <select id="payment_method" required>
-                        <option value="">Pilih Metode...</option>
-                        <option value="BCA">Bank BCA (123456789 a.n Suwanto)</option>
-                        <option value="Mandiri">Bank Mandiri (987654321 a.n Suwanto)</option>
-                        <option value="BRI">Bank BRI (1122334455 a.n Suwanto)</option>
-                        <option value="ShopeePay">ShopeePay (0812xxxxxx)</option>
+                        <option value="">-- Pilih Bank --</option>
+                        <option value="BCA">BCA (123456789 a.n Suwanto)</option>
+                        <option value="BRI">BRI (1122334455 a.n Suwanto)</option>
+                        <option value="ShopeePay">ShopeePay (081234567890)</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-submit" id="btnSubmitForm">Kirim Konfirmasi</button>
+                <button type="submit" class="btn btn-buy" id="btnSubmitForm">Beli Sekarang</button>
             </form>
         </div>
     </div>
@@ -112,61 +157,97 @@
     <div id="toast" class="toast">Notifikasi</div>
 
     <script>
-        // MASUKKAN URL DEPLOYMENT APPS SCRIPT ANDA DI SINI
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyFEODusr_L8UP0qJVD3b-ay7I_5TSd0OyiEbWk4jlWDzT-ls6mRDp58_oVgX353wA7/exec'; 
+        // MASUKKAN URL DEPLOYMENT APPS SCRIPT ANDA DI SINI!
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxI6-IA2ta-MDHlOh74Cpd4qF32uC0xSjSPwQEjBLMpl37t1qsUWLmXr1ZtNwXD4H6o/exec'; 
 
-        // 1. Fetch Data dari Sheets (GET)
+        let allApps = []; // Menyimpan data agar bisa di-search
+
+        // 1. Fetch Data
         fetch(API_URL)
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                const container = document.getElementById('katalog-aplikasi');
-                container.innerHTML = ''; 
-                
-                data.forEach(app => {
-                    const card = `
-                        <div class="card">
-                            <h3>${app.Nama_Aplikasi}</h3>
-                            <p style="color: #555; font-size: 0.9rem; height: 65px; overflow: hidden;">${app.Deskripsi}</p>
-                            <div class="price">${app.Harga}</div>
-                            <a href="${app.Link_YouTube}" target="_blank" class="btn btn-outline">Lihat Demo</a>
-                            <button onclick="openModal('${app.Nama_Aplikasi}')" class="btn btn-buy">Beli & Konfirmasi</button>
-                        </div>
-                    `;
-                    container.innerHTML += card;
-                });
+                allApps = data;
+                renderApps(data);
             })
-            .catch(error => {
-                showToast('Gagal memuat data. Periksa koneksi internet.', 'error');
+            .catch(err => {
+                document.getElementById('katalog-aplikasi').innerHTML = '<p>Gagal memuat. Silakan refresh web.</p>';
             });
 
-        // 2. Fungsi Modal
+        // 2. Render HTML Aplikasi
+        function renderApps(data) {
+            const container = document.getElementById('katalog-aplikasi');
+            container.innerHTML = '';
+            
+            if(data.length === 0) {
+                container.innerHTML = '<p>Aplikasi tidak ditemukan.</p>';
+                return;
+            }
+
+            data.forEach(app => {
+                const card = `
+                    <div class="card">
+                        <div class="slider-container">
+                            <img src="${app.Gambar1}" class="slider-img" alt="${app.Nama_Aplikasi} image 1">
+                            ${app.Gambar2 ? `<img src="${app.Gambar2}" class="slider-img" alt="${app.Nama_Aplikasi} image 2">` : ''}
+                        </div>
+                        ${app.Gambar2 ? `<div class="swipe-hint">geser gambar &rarr;</div>` : ''}
+                        
+                        <div class="card-body">
+                            <h3>${app.Nama_Aplikasi}</h3>
+                            <p style="font-size: 0.9rem; color: #555; flex-grow: 1;">${app.Deskripsi}</p>
+                            <p style="font-size: 0.85rem; margin-top:10px;"><strong>Fitur:</strong> ${app.Fitur_Unggulan}</p>
+                            <div class="price">${app.Harga}</div>
+                            
+                            <a href="${app.Link_YouTube}" target="_blank" class="btn btn-yt">Tonton YouTube</a>
+                            <button onclick="openModal('${app.Nama_Aplikasi}')" class="btn btn-buy">Pesan Aplikasi</button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // 3. Fitur Pencarian Real-time (Sidebar Kanan)
+        function filterApps() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allApps.filter(app => 
+                app.Nama_Aplikasi.toLowerCase().includes(query) || 
+                app.Deskripsi.toLowerCase().includes(query)
+            );
+            renderApps(filtered);
+        }
+
+        // 4. Fitur Tanya Jawab Langsung ke WhatsApp
+        function kirimWA() {
+            const nama = document.getElementById('qaName').value;
+            const pesan = document.getElementById('qaMessage').value;
+            if(!nama || !pesan) { alert("Isi nama dan pertanyaan dulu!"); return; }
+            
+            // UBAH NOMOR DI BAWAH INI DENGAN NOMOR WA ANDA
+            const noWA = "6281234567890"; 
+            const textWA = `Halo Pak Suwanto,%0A%0ANama saya: ${nama}%0APertanyaan: ${pesan}`;
+            window.open(`https://wa.me/${noWA}?text=${textWA}`, '_blank');
+        }
+
+        // 5. Fungsi Modal & Form Pembelian
         const modal = document.getElementById('paymentModal');
         function openModal(appName) {
             document.getElementById('app_name').value = appName;
             modal.style.display = 'flex';
         }
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-        window.onclick = function(event) {
-            if (event.target == modal) closeModal();
-        }
-
-        // 3. Notifikasi Cantik (Toast)
-        function showToast(message, type) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show ' + type;
-            setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3500);
+        function closeModal() { modal.style.display = 'none'; }
+        
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 3000);
         }
 
-        // 4. Kirim Data Form ke Sheets (POST)
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const btnSubmit = document.getElementById('btnSubmitForm');
-            btnSubmit.textContent = "Memproses...";
-            btnSubmit.disabled = true;
+            const btn = document.getElementById('btnSubmitForm');
+            btn.textContent = "Mengirim..."; btn.disabled = true;
 
             const payload = {
                 nama: document.getElementById('user_name').value,
@@ -175,23 +256,15 @@
                 pembayaran: document.getElementById('payment_method').value
             };
 
-            fetch(API_URL, {
-                method: 'POST',
-                // Mode 'no-cors' kadang diperlukan jika ada masalah CORS dari Google, 
-                // tapi kita gunakan JSON text standar agar mudah dibaca oleh e.postData.contents
-                body: JSON.stringify(payload)
-            })
-            .then(response => {
-                showToast('Hore! Konfirmasi berhasil dikirim.', 'success');
+            fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
+            .then(res => {
+                showToast("Pesanan Berhasil Dikirim!");
                 closeModal();
-                document.getElementById('orderForm').reset();
-                btnSubmit.textContent = "Kirim Konfirmasi";
-                btnSubmit.disabled = false;
-            })
-            .catch(error => {
-                showToast('Terjadi kesalahan saat mengirim.', 'error');
-                btnSubmit.textContent = "Kirim Konfirmasi";
-                btnSubmit.disabled = false;
+                this.reset();
+                btn.textContent = "Beli Sekarang"; btn.disabled = false;
+            }).catch(err => {
+                showToast("Terjadi kesalahan.");
+                btn.textContent = "Beli Sekarang"; btn.disabled = false;
             });
         });
     </script>

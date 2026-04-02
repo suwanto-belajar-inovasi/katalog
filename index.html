@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Suwanto - Belajar Inovasi | Jasa Web App Apps Script</title>
+    <style>
+        /* CSS Variabel & Reset untuk performa ultra-cepat */
+        :root {
+            --primary: #0f9d58;
+            --dark: #202124;
+            --light: #f8f9fa;
+            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        
+        /* Nav & Hero Section */
+        header { background: #fff; padding: 15px 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center;}
+        .brand { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        .hero { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #0f9d58 0%, #0d8249 100%); color: white; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        
+        /* Grid Katalog */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: white; border-radius: 12px; padding: 25px; box-shadow: var(--shadow); transition: transform 0.3s ease; border-top: 4px solid var(--primary); }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { color: var(--dark); font-size: 1.3rem; margin-bottom: 10px; }
+        .price { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin: 15px 0; }
+        
+        /* Buttons */
+        .btn { display: block; width: 100%; padding: 12px; text-align: center; border-radius: 8px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; margin-bottom: 10px; }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+        .btn-buy { background: var(--dark); color: white; }
+        .btn-buy:hover { background: #000; }
+        
+        /* Modal Konfirmasi Pembayaran (Glassmorphism) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 999; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 450px; padding: 30px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .close-btn { font-size: 1.5rem; cursor: pointer; color: #666; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
+        .btn-submit { background: var(--primary); color: white; margin-top: 10px; }
+
+        /* Toast Notification Menawan */
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 30px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 1000; }
+        .toast.show { bottom: 30px; }
+        .toast.success { background: #0f9d58; }
+        .toast.error { background: #ea4335; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">Belajar Inovasi</div>
+        <div>By Suwanto</div>
+    </header>
+
+    <div class="hero">
+        <h1>Otomasi Bisnis Tanpa Batas</h1>
+        <p>Katalog Aplikasi Web Apps Script & Google Sheets Terbaik</p>
+    </div>
+
+    <div class="container">
+        <div class="grid" id="katalog-aplikasi">
+            <div style="text-align:center; grid-column: 1 / -1; padding: 40px;">
+                <h3 style="color: #666;">⏳ Sedang memuat aplikasi...</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Konfirmasi Order</h2>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label>Nama Aplikasi</label>
+                    <input type="text" id="app_name" readonly style="background: #f1f1f1;">
+                </div>
+                <div class="form-group">
+                    <label>Nama Anda</label>
+                    <input type="text" id="user_name" required placeholder="Masukkan nama lengkap">
+                </div>
+                <div class="form-group">
+                    <label>No. WhatsApp</label>
+                    <input type="number" id="user_wa" required placeholder="Contoh: 08123456789">
+                </div>
+                <div class="form-group">
+                    <label>Metode Pembayaran</label>
+                    <select id="payment_method" required>
+                        <option value="">Pilih Metode...</option>
+                        <option value="BCA">Bank BCA (123456789 a.n Suwanto)</option>
+                        <option value="Mandiri">Bank Mandiri (987654321 a.n Suwanto)</option>
+                        <option value="BRI">Bank BRI (1122334455 a.n Suwanto)</option>
+                        <option value="ShopeePay">ShopeePay (0812xxxxxx)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-submit" id="btnSubmitForm">Kirim Konfirmasi</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Notifikasi</div>
+
+    <script>
+        // MASUKKAN URL DEPLOYMENT APPS SCRIPT ANDA DI SINI
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyFEODusr_L8UP0qJVD3b-ay7I_5TSd0OyiEbWk4jlWDzT-ls6mRDp58_oVgX353wA7/exec'; 
+
+        // 1. Fetch Data dari Sheets (GET)
+        fetch(API_URL)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('katalog-aplikasi');
+                container.innerHTML = ''; 
+                
+                data.forEach(app => {
+                    const card = `
+                        <div class="card">
+                            <h3>${app.Nama_Aplikasi}</h3>
+                            <p style="color: #555; font-size: 0.9rem; height: 65px; overflow: hidden;">${app.Deskripsi}</p>
+                            <div class="price">${app.Harga}</div>
+                            <a href="${app.Link_YouTube}" target="_blank" class="btn btn-outline">Lihat Demo</a>
+                            <button onclick="openModal('${app.Nama_Aplikasi}')" class="btn btn-buy">Beli & Konfirmasi</button>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            })
+            .catch(error => {
+                showToast('Gagal memuat data. Periksa koneksi internet.', 'error');
+            });
+
+        // 2. Fungsi Modal
+        const modal = document.getElementById('paymentModal');
+        function openModal(appName) {
+            document.getElementById('app_name').value = appName;
+            modal.style.display = 'flex';
+        }
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+
+        // 3. Notifikasi Cantik (Toast)
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3500);
+        }
+
+        // 4. Kirim Data Form ke Sheets (POST)
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btnSubmit = document.getElementById('btnSubmitForm');
+            btnSubmit.textContent = "Memproses...";
+            btnSubmit.disabled = true;
+
+            const payload = {
+                nama: document.getElementById('user_name').value,
+                whatsapp: document.getElementById('user_wa').value,
+                aplikasi: document.getElementById('app_name').value,
+                pembayaran: document.getElementById('payment_method').value
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                // Mode 'no-cors' kadang diperlukan jika ada masalah CORS dari Google, 
+                // tapi kita gunakan JSON text standar agar mudah dibaca oleh e.postData.contents
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                showToast('Hore! Konfirmasi berhasil dikirim.', 'success');
+                closeModal();
+                document.getElementById('orderForm').reset();
+                btnSubmit.textContent = "Kirim Konfirmasi";
+                btnSubmit.disabled = false;
+            })
+            .catch(error => {
+                showToast('Terjadi kesalahan saat mengirim.', 'error');
+                btnSubmit.textContent = "Kirim Konfirmasi";
+                btnSubmit.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
